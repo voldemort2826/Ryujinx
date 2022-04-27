@@ -3,13 +3,17 @@ on:
     types: [opened, edited]
 
 jobs:
-  auto_close_issues:
+  example:
+    name: Example job
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Automatically close issues that don't follow the issue template
-        uses: lucasbento/auto-close-issues@v1.0.2
-        with:
-          issue-close-message: "@${issue.user.login}: This issue is being automatically closed because it does not follow the issue template."
-          closed-issues-label: "Not following issue template"
+    - name: Run actions/checkout 
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Run fabiankoestring/body-regex-validator-action
+      uses: fabiankoestring/body-regex-validator-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_PATTERN: '^(.*Description.*Behavior.*)$'
+        ISSUE_COMMENT: 'This is my issue comment template.'
