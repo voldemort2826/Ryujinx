@@ -43,8 +43,8 @@ jobs:
                 hidden_debug_artifacts += `\n* [${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
               } else if(art.name.includes('headless-sdl2')) {
                 hidden_headless_artifacts += `\n* [${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
-              } else if(art.name.includes('Release-')&&art.name.includes('win_x64')) {
-                    body += `\n* [Windows build (x64) v1.1.0+${{github.event.workflow_run.head_sha}}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
+              } else if(art.name.test(/Release-.*-win_x64/g)) {
+                    body += `\n* [Windows build (x64)`+art.name.slice(art.name.search(/Release-/g),art.name.search(/-win_x64/g))+`](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
                 }
               }
             }
