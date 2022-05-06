@@ -7,6 +7,8 @@ jobs:
   pr_comment:
     if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
+    env:
+      run: echo "dateBuild=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
     steps:
       - uses: actions/github-script@v3
         with:
@@ -35,7 +37,7 @@ jobs:
             if (!artifacts.length) {
               return core.error(`No artifacts found`);
             }
-            let body = `Download the artifacts for this pull request:\n`;
+            let body = `Download the artifacts for this pull request (Last updated: ${{ env.dateBuild }}):\n`;
             let hidden_headless_artifacts = `\n\n <details><summary>GUI-less (SDL2)</summary>\n`;
             let hidden_debug_artifacts = `\n\n <details><summary>Only for Developers</summary>\n`;
             for (const art of artifacts) {
