@@ -43,8 +43,9 @@ jobs:
                 hidden_debug_artifacts += `\n* [${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
               } else if(art.name.includes('headless-sdl2')) {
                 hidden_headless_artifacts += `\n* [${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
-              } else {
-                body += `\n* [${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
+              } else if(art.name.test(/Release-.*-win_x64/g)) {
+                    body += `\n* [Windows build (x64) v${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
+                }
               }
             }
             hidden_headless_artifacts += `\n</details>`;
